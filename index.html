@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Search any city to see live weather, a 5-day forecast and weather-based travel advice.">
+  <title>Smart Weather &amp; Travel Dashboard</title>
+
+  <!-- Emoji favicon (inline, so the browser never requests a missing favicon.ico) -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9B%85%3C/text%3E%3C/svg%3E">
+
+  <link rel="stylesheet" href="style.css">
+  <!-- "defer" runs the script after the HTML is parsed, so every element exists -->
+  <script src="script.js" defer></script>
+</head>
+
+<!-- data-weather is changed by JavaScript to re-colour the page for each weather type -->
+<body data-weather="clear">
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <!-- ============ HEADER ============ -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">⛅</span>
+        <div>
+          <h1>Smart Weather &amp; Travel Dashboard</h1>
+          <p class="tagline">Live conditions and trip advice for any city</p>
+        </div>
+      </div>
+
+      <!-- Temperature unit switch -->
+      <div class="unit-toggle" role="group" aria-label="Temperature unit">
+        <button type="button" class="unit-btn is-active" data-unit="metric" aria-pressed="true">°C</button>
+        <button type="button" class="unit-btn" data-unit="imperial" aria-pressed="false">°F</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="container">
+
+    <!-- ============ CITY SEARCH ============ -->
+    <section class="search" aria-labelledby="search-title">
+      <h2 id="search-title" class="sr-only">Search for a city</h2>
+
+      <form id="search-form" class="search-form" novalidate>
+        <label for="city-input" class="sr-only">City name</label>
+        <input
+          type="search"
+          id="city-input"
+          name="city"
+          placeholder="Search a city, for example London"
+          autocomplete="off"
+          maxlength="60"
+          required>
+        <button type="submit" id="search-btn" class="btn-primary">Search</button>
+      </form>
+
+      <!-- Quick-pick buttons so the dashboard can be tried with one tap -->
+      <div class="quick-picks" id="quick-picks">
+        <span class="quick-label">Try:</span>
+        <button type="button" class="chip" data-city="London">London</button>
+        <button type="button" class="chip" data-city="New York">New York</button>
+        <button type="button" class="chip" data-city="Tokyo">Tokyo</button>
+        <button type="button" class="chip" data-city="Mumbai">Mumbai</button>
+        <button type="button" class="chip" data-city="Dubai">Dubai</button>
+      </div>
+
+      <!-- Loading and error messages appear here (screen readers announce changes) -->
+      <div id="status" class="status" role="status" aria-live="polite" hidden></div>
+    </section>
+
+    <!-- Shown until the first successful search -->
+    <section id="welcome" class="welcome" aria-label="Getting started">
+      <p class="welcome-icon" aria-hidden="true">🌍</p>
+      <h2>Where are you headed?</h2>
+      <p>Enter a city to see today's weather, the next five days and what to pack.</p>
+    </section>
+
+    <!-- ============ DASHBOARD (hidden until data arrives) ============ -->
+    <div id="dashboard" class="dashboard" hidden>
+
+      <!-- Current weather card -->
+      <section class="current-card" aria-labelledby="city-name">
+        <div class="current-top">
+          <h2 id="city-name">City</h2>
+          <p id="local-time" class="local-time"></p>
+        </div>
+        <div class="current-main">
+          <span id="current-icon" class="current-icon" aria-hidden="true">☀️</span>
+          <p id="current-temp" class="current-temp">--</p>
+        </div>
+        <p id="current-condition" class="current-condition"></p>
+        <p id="current-range" class="current-range"></p>
+      </section>
+
+      <!-- Weather details -->
+      <section class="card details" aria-labelledby="details-title">
+        <h2 id="details-title">Weather details</h2>
+        <dl id="details-grid" class="details-grid"></dl>
+      </section>
+
+      <!-- 5-day forecast -->
+      <section class="card forecast" aria-labelledby="forecast-title">
+        <h2 id="forecast-title">5-day forecast</h2>
+        <ul id="forecast-grid" class="forecast-grid"></ul>
+      </section>
+
+      <!-- Travel recommendation -->
+      <section id="travel-card" class="card travel" aria-labelledby="travel-title" data-level="good">
+        <div class="travel-head">
+          <h2 id="travel-title">Travel recommendation</h2>
+          <span id="travel-badge" class="badge"></span>
+        </div>
+        <p id="travel-headline" class="travel-headline"></p>
+        <ul id="travel-tips" class="travel-tips"></ul>
+      </section>
+    </div>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>Weather data from <a href="https://openweathermap.org/" target="_blank" rel="noopener noreferrer">OpenWeatherMap</a>. Built with HTML, CSS and vanilla JavaScript.</p>
+    </div>
+  </footer>
+</body>
+</html>
